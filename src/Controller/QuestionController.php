@@ -5,19 +5,25 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
 
 class QuestionController extends AbstractController
 {
     /**
-     * @Route("/")
+     * @Route("/", name="app_homepage")
      */
-    public function homepage()
+    public function homepage(Environment $twigEnviroment )
     {
-        return new Response('test');
+       // $html = $twigEnviroment->render('question/homepage.html.twig');
+       // return new Response($html);
+        // Example for services ^^^
+
+        return $this->render('question/homepage.html.twig');
     }
 
+
     /**
-     * @Route("/questions/{slug}")
+     * @Route("/questions/{slug}", name="app_question_show")
      */
     public function show($slug)
     {
@@ -27,10 +33,11 @@ class QuestionController extends AbstractController
             'do something else'
         ];
 
+        dump($this);
+
         return $this->render('question/show.html.twig', [
         'question' => ucwords(str_replace('-', ' ',$slug)),
             'answers' => $answers,
         ]);
-
     }
 }
